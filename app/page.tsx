@@ -13,7 +13,7 @@ import EditorPanel from "@/components/web/editor-panel";
 import { generateUUID } from "@/lib/utils";
 
 // Defines the width of each panel in %
-const editorPanelWidth = 80;
+const editorPanelWidth = 70;
 const sidebarPanelWidth = 100 - editorPanelWidth;
 
 export default function Home() {
