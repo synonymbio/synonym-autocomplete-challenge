@@ -11,6 +11,50 @@ import Header from "@/components/web/header";
 import SidebarPanel from "@/components/web/sidebar-panel";
 import EditorPanel from "@/components/web/editor-panel";
 import { generateUUID } from "@/lib/utils";
+import { EquationEnvironment } from "@/lib/types/identifiers";
+
+const initialIdentifiers = {
+  variables: [
+    "x",
+    "y",
+    "z",
+    "Foo",
+    "Bar",
+    "Baz",
+    "Variable1",
+    "Variable2",
+    "Variable3",
+    "variable_1",
+    "variable_2",
+    "variable_3",
+  ],
+  functions: [
+    "sum",
+    "mean",
+    "median",
+    "mode",
+    "sqrt",
+    "log",
+    "exp",
+    "sin",
+    "cos",
+    "tan",
+  ],
+  constants: [
+    "pi",
+    "e",
+    "c",
+    "SomeMagicConstant",
+    "T_STP",
+    "P_STP",
+  ],
+}
+
+const initialEnvironment: EquationEnvironment = {
+  variables: initialIdentifiers.variables.map(v => ({ code: v, type: "variable" })),
+  functions: initialIdentifiers.functions.map(f => ({ code: f, type: "function" })),
+  constants: initialIdentifiers.constants.map(c => ({ code: c, type: "constant" })),
+}
 
 // Defines the width of each panel in %
 const editorPanelWidth = 70;
@@ -18,7 +62,7 @@ const sidebarPanelWidth = 100 - editorPanelWidth;
 
 export default function Home() {
   const [equations, setEquations] = useState<Equation[]>([]);
-  const [rawText, setRawText] = useState<string>("");
+  const [environment, setEnvironment] = useState<EquationEnvironment>(initialEnvironment);
 
   const addEquation = () => {
     setEquations([...equations, { id: generateUUID(), lhs: "", rhs: "" }]);
@@ -30,11 +74,11 @@ export default function Home() {
         <Header />
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel defaultSize={editorPanelWidth}>
-            <EditorPanel equations={equations} addEquation={addEquation} />
+            <EditorPanel equations={equations} addEquation={addEquation} environment={environment} />
           </ResizablePanel> 
-          <ResizableHandle/>
+          <ResizableHandle withHandle/>
           <ResizablePanel defaultSize={sidebarPanelWidth}>
-            <SidebarPanel rawText={rawText} setRawText={setRawText} />
+            <SidebarPanel environment={environment} />
           </ResizablePanel>
         </ResizablePanelGroup>
       </main>

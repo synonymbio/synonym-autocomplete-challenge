@@ -1,15 +1,19 @@
 import { PlusIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Equation } from "@/lib/types/equation";
+import { EquationEnvironment } from "@/lib/types/identifiers";
 import EquationRow from "./equation-row";
 
 interface EditorPanelProps {
   equations: Equation[];
   addEquation: () => void;
+  environment: EquationEnvironment; 
 }
 
 const EditorPanel = (props: EditorPanelProps) => {
-  const { equations, addEquation } = props;
+  const { equations, addEquation, environment } = props;
+
+  console.debug(environment);
 
   return (
     <div className="h-full w-full p-4 flex flex-col gap-4">
