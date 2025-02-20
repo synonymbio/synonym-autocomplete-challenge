@@ -4,7 +4,7 @@ This is a UI/UX-focused challenge to test how you approach building a new fronte
 
 ## Instructions
 
-1. Fork the repository
+1. Click `Use this template` to fork the repository. Please make it private for now!
 2. Make sure you can run the app locally
 3. Do your best on the challenge (see below)
 4. Deploy the app somewhere (we recommend Vercel)
