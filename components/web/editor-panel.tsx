@@ -13,8 +13,6 @@ interface EditorPanelProps {
 const EditorPanel = (props: EditorPanelProps) => {
   const { equations, addEquation, environment } = props;
 
-  console.debug(environment);
-
   return (
     <div className="h-full w-full p-4 flex flex-col gap-4">
       <div className="flex flex-row items-center gap-4">
