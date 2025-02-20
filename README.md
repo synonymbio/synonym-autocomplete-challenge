@@ -67,6 +67,7 @@ If you're feeling particularly ambitious, you're welcome to improve aspects of t
 - Add the ability to delete single equations or clear all of them
 - Make the app responsive for smaller screens!
 - Highlight identifiers based on their semantic type (e.g functions, variables, constants)
+- Use a better color scheme or add dark mode
 - Organize, refactor, and otherwise improve the code
 
 ## Questions

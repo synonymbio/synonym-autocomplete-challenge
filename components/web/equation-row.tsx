@@ -13,6 +13,7 @@ const EquationRow = (props: EquationRowProps) => {
 
   return (
     <div className="flex flex-row items-center gap-4 w-full">
+      {/* TODO: Get rid of the annoying focus outline! */}
       <Input className="min-w-12 max-w-[300px] font-mono" value={lhs} onChange={(e) => setLhs(e.target.value)} />
       <span className="text-lg text-gray-500">=</span>
       <Input className="min-w-12 font-mono" value={rhs} onChange={(e) => setRhs(e.target.value)} />
