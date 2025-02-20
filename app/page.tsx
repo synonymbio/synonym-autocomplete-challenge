@@ -13,6 +13,8 @@ import EditorPanel from "@/components/web/editor-panel";
 import { generateUUID } from "@/lib/utils";
 import { EquationEnvironment } from "@/lib/types/identifiers";
 
+// Feel free to change these! They're just for testing, and meant to mimic
+// the IDE environment in which a user would be writing equations.
 const initialIdentifiers = {
   variables: [
     "x",
@@ -29,16 +31,19 @@ const initialIdentifiers = {
     "variable_3",
   ],
   functions: [
-    "sum",
-    "mean",
-    "median",
-    "mode",
-    "sqrt",
-    "log",
-    "exp",
-    "sin",
-    "cos",
-    "tan",
+    "SQRT",
+    "LOG",
+    "EXP",
+    "SIN",
+    "COS",
+    "TAN",
+    "ROUND",
+    "CEIL",
+    "FLOOR",
+    "ABS",
+    "SIGN",
+    "POW",
+    "MOD",
   ],
   constants: [
     "pi",
