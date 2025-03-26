@@ -4,14 +4,14 @@ import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
-} from "@/components/ui/resizable"
+} from "@/components/ui/resizable";
 import { useEffect, useState } from "react";
 import { Equation } from "@/lib/types/equation";
 import Header from "@/components/web/header";
 import SidebarPanel from "@/components/web/sidebar-panel";
 import EditorPanel from "@/components/web/editor-panel";
 import { generateUUID } from "@/lib/utils";
-import { EquationEnvironment } from "@/lib/types/identifiers";
+import { EquationEnvironment, Identifier } from "@/lib/types/identifiers";
 
 // Feel free to change these! They're just for testing, and meant to mimic
 // the IDE environment in which a user would be writing equations.
@@ -53,21 +53,23 @@ const initialIdentifiers = {
     "POW",
     "MOD",
   ],
-  constants: [
-    "pi",
-    "e",
-    "c",
-    "MagicConstant",
-    "T_STP",
-    "P_STP",
-  ],
-}
+  constants: ["pi", "e", "c", "MagicConstant", "T_STP", "P_STP"],
+};
 
 const initialEnvironment: EquationEnvironment = {
-  variables: initialIdentifiers.variables.map(v => ({ code: v, type: "variable" })),
-  functions: initialIdentifiers.functions.map(f => ({ code: f, type: "function" })),
-  constants: initialIdentifiers.constants.map(c => ({ code: c, type: "constant" })),
-}
+  variables: initialIdentifiers.variables.map((v) => ({
+    code: v,
+    type: "variable",
+  })),
+  functions: initialIdentifiers.functions.map((f) => ({
+    code: f,
+    type: "function",
+  })),
+  constants: initialIdentifiers.constants.map((c) => ({
+    code: c,
+    type: "constant",
+  })),
+};
 
 // Defines the width of each panel in %
 const editorPanelWidth = 70;
@@ -75,11 +77,42 @@ const sidebarPanelWidth = 100 - editorPanelWidth;
 
 export default function Home() {
   const [equations, setEquations] = useState<Equation[]>([]);
-  const [environment, setEnvironment] = useState<EquationEnvironment>(initialEnvironment);
+  const [environment, setEnvironment] =
+    useState<EquationEnvironment>(initialEnvironment);
 
   const addEquation = () => {
     setEquations([...equations, { id: generateUUID(), lhs: "", rhs: "" }]);
-  }
+  };
+
+  const handleEquationUpdate = (updatedEquation: Equation) => {
+    setEquations(
+      equations.map((eq) =>
+        eq.id === updatedEquation.id ? updatedEquation : eq
+      )
+    );
+
+    // If the equation has a valid identifier on the left-hand side, add it to the environment
+    if (
+      updatedEquation.lhs &&
+      /^[a-zA-Z_][a-zA-Z0-9_\.]*$/.test(updatedEquation.lhs)
+    ) {
+      const newIdentifier: Identifier = {
+        code: updatedEquation.lhs,
+        type: "variable",
+      };
+
+      // Check if the identifier already exists
+      const exists = environment.variables.some(
+        (v) => v.code === updatedEquation.lhs
+      );
+      if (!exists) {
+        setEnvironment((prev) => ({
+          ...prev,
+          variables: [...prev.variables, newIdentifier],
+        }));
+      }
+    }
+  };
 
   // Ensure that at least one equation is present when the page loads.
   useEffect(() => {
@@ -94,9 +127,14 @@ export default function Home() {
         <Header />
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel defaultSize={editorPanelWidth}>
-            <EditorPanel equations={equations} addEquation={addEquation} environment={environment} />
-          </ResizablePanel> 
-          <ResizableHandle withHandle/>
+            <EditorPanel
+              equations={equations}
+              addEquation={addEquation}
+              environment={environment}
+              onUpdateEquation={handleEquationUpdate}
+            />
+          </ResizablePanel>
+          <ResizableHandle withHandle />
           <ResizablePanel defaultSize={sidebarPanelWidth}>
             <SidebarPanel environment={environment} />
           </ResizablePanel>
